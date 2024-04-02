@@ -32,16 +32,15 @@ test("Deve simular um financiamento de carro", function () {
 		installments: 24
 	}
 	const output = simulateLoan.execute(input);
-	console.log(output);
-	expect(output.installments).toHaveLength(12);
+	expect(output.installments).toHaveLength(24);
 	expect(output.installments.at(0)?.number).toBe(1);
-	expect(output.installments.at(0)?.amount).toBe(9166.66);
-	expect(output.installments.at(0)?.interest).toBe(833.33);
-	expect(output.installments.at(0)?.amortization).toBe(8333.33);
-	expect(output.installments.at(0)?.balance).toBe(91666.67);
-	expect(output.installments.at(11)?.number).toBe(12);
-	expect(output.installments.at(11)?.amount).toBe(8402.77);
-	expect(output.installments.at(11)?.interest).toBe(69.44);
-	expect(output.installments.at(11)?.amortization).toBe(8333.33);
-	expect(output.installments.at(11)?.balance).toBe(0);
+	expect(output.installments.at(0)?.amount).toBe(2424.33);
+	expect(output.installments.at(0)?.interest).toBe(625);
+	expect(output.installments.at(0)?.amortization).toBe(1799.33);
+	expect(output.installments.at(0)?.balance).toBe(48200.67);
+	expect(output.installments.at(23)?.number).toBe(24);
+	expect(output.installments.at(23)?.amount).toBe(2424.33);
+	expect(output.installments.at(23)?.interest).toBe(29.93);
+	expect(output.installments.at(23)?.amortization).toBe(2394.4);
+	expect(output.installments.at(23)?.balance).toBe(0);
 });
