@@ -22,6 +22,7 @@ export class SACInstallmentCalculator implements InstallmentCalculator {
 			balance = currency(updatedBalance.value - amount.value);
 			if (balance.value <= 0.10) balance = currency(0);
 			installments.push(new Installment(
+				loan.loanId,
 				installmentNumber,
 				amount.value, 
 				interest.value, 
@@ -50,6 +51,7 @@ export class PriceInstallmentCalculator implements InstallmentCalculator {
 			balance = balance.subtract(amortization);
 			if (balance.value <= 0.10) balance = currency(0);
 			installments.push(new Installment(
+				loan.loanId,
 				installmentNumber,
 				amount.value, 
 				interest.value, 
