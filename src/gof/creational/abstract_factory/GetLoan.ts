@@ -1,5 +1,6 @@
+import { SACInstallmentCalculator } from "./InstallmentCalculator";
 import InstallmentRepository from "./InstallmentRepository";
-import LoanFactory from "./LoanFactory";
+import { MortgageLoan } from "./Loan"
 import LoanRepository from "./LoanRepository";
 import RepositoryFactory from "./RepositoryFactory";
 
@@ -13,19 +14,19 @@ export default class GetLoan {
 	}
 
 	async execute (input: Input): Promise<Output> {
-		const loan = await this.loanRepository.get(input.loanId);
+		const loan = await this.loanRepository.getById(input.loanId);
 		const installments = await this.installmentRepository.listByLoanId(input.loanId);
 		const output: Output = {
-			loanId: loan.loanId,
 			amount: loan.amount,
+			income: loan.income,
 			installments: []
 		}
 		for (const installment of installments) {
-			output.installments.push({ 
-				number: installment.number, 
+			output.installments.push({
+				number: installment.number,
 				amount: installment.amount,
-				interest: installment.interest,
 				amortization: installment.amortization,
+				interest: installment.interest,
 				balance: installment.balance
 			});
 		}
@@ -38,7 +39,7 @@ type Input = {
 }
 
 type Output = {
-	loanId: string,
 	amount: number,
-	installments: { number: number, amount: number, interest: number, amortization: number, balance: number }[]
+	income: number,
+	installments: { number: number, amount: number, amortization: number, interest: number, balance: number }[]
 }

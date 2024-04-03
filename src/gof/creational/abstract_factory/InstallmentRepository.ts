@@ -1,4 +1,5 @@
 import Installment from "./Installment";
+import Loan from "./Loan";
 
 export default interface InstallmentRepository {
 	save (installment: Installment): Promise<void>;
@@ -7,7 +8,7 @@ export default interface InstallmentRepository {
 
 export class InstallmentRepositoryMemory implements InstallmentRepository {
 	installments: Installment[];
-	static instance: InstallmentRepositoryMemory;
+	static instance: InstallmentRepository;
 
 	private constructor () {
 		this.installments = [];
@@ -28,5 +29,4 @@ export class InstallmentRepositoryMemory implements InstallmentRepository {
 		}
 		return InstallmentRepositoryMemory.instance;
 	}
-
 }

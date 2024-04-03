@@ -2,7 +2,7 @@ import Loan from "./Loan";
 
 export default interface LoanRepository {
 	save (loan: Loan): Promise<void>;
-	get (loanId: string): Promise<Loan>;
+	getById (loanId: string): Promise<Loan>;
 }
 
 export class LoanRepositoryMemory implements LoanRepository {
@@ -17,7 +17,7 @@ export class LoanRepositoryMemory implements LoanRepository {
 		this.loans.push(loan);
 	}
 
-	async get(loanId: string): Promise<Loan> {
+	async getById(loanId: string): Promise<Loan> {
 		const loan = this.loans.find((loan: Loan) => loan.loanId === loanId);
 		if (!loan) throw new Error("Loan not found");
 		return loan;

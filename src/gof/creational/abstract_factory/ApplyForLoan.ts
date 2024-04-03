@@ -22,7 +22,7 @@ export default class ApplyForLoan {
 		}
 		return {
 			loanId: loan.loanId
-		}
+		};
 	}
 }
 
