@@ -15,9 +15,8 @@ export class SACInstallmentCalculator implements InstallmentCalculator {
 		let installmentNumber = 1;
 		let amortization = currency(balance.value / loan.installments);
 		while (balance.value > 0.10) {
-			let saldoInicial = currency(balance.value);
-			let interest = currency(saldoInicial.value * rate);
-			let updatedBalance = currency(saldoInicial.value + interest.value);
+			let interest = currency(balance.value * rate);
+			let updatedBalance = currency(balance.value + interest.value);
 			let amount = currency(interest.value + amortization.value);
 			balance = currency(updatedBalance.value - amount.value);
 			if (balance.value <= 0.10) balance = currency(0);
