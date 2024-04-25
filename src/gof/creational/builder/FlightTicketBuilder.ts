@@ -1,88 +1,41 @@
-export class FlightTicket {
-	readonly pnr?: string;
-	readonly airline: string;
-	readonly fromAirport: string; 
-	readonly toAirport: string;
-	readonly flightCode: string;
-	readonly passengerName: string;
-	readonly passengerDocument: string;
-	readonly passengerGender: string;
-	readonly passengerBirthdate: string;
-	readonly emergencyContactName: string;
-	readonly emergencyContactTelephone: string;
-	readonly seat: string;
-	readonly checkedBaggage: number;
-	readonly hasCheckin: boolean;
-	readonly terminal: string;
-	readonly gate: string;
-	readonly priority: number;
-	private status?: string;
+import FlightTicket from "./FlightTicket";
 
-	constructor (builder: FlightTicketBuilder) {
-		this.airline = builder.airline;
-		this.fromAirport = builder.fromAirport;
-		this.toAirport = builder.toAirport;
-		this.flightCode = builder.flightCode;
-		this.passengerName = builder.passengerName;
-		this.passengerDocument = builder.passengerDocument;
-		this.passengerGender = builder.passengerGender;
-		this.passengerBirthdate = builder.passengerBirthdate;
-		this.emergencyContactName = builder.emergencyContactName;
-		this.emergencyContactTelephone = builder.emergencyContactTelephone;
-		this.seat = builder.seat;
-		this.checkedBaggage = builder.checkedBaggage;
-		this.hasCheckin = builder.hasCheckin;
-		this.terminal = builder.terminal;
-		this.gate = builder.gate;
-		this.priority = builder.priority;
-	}
-
-	cancel () {
-		this.status = "cancelled";
-	}
-
-	getStatus () {
-		return this.status;
-	}
-	
-}
-
-export class FlightTicketBuilder {
+export default class FlightTicketBuilder {
 	airline!: string;
+	flightCode!: string;
 	fromAirport!: string;
 	toAirport!: string;
-	flightCode!: string;
 	passengerName!: string;
+	passengerEmail!: string;
 	passengerDocument!: string;
 	passengerGender!: string;
-	passengerBirthdate!: string;
 	emergencyContactName!: string;
 	emergencyContactTelephone!: string;
 	seat!: string;
-	checkedBaggage!: number;
+	checkedBags!: number;
 	hasCheckin!: boolean;
 	terminal!: string;
 	gate!: string;
 	priority!: number;
 
-	constructor () {}
-	
-	setAirline (airline: string) {
+
+	setFlight (airline: string, code: string) {
 		this.airline = airline;
+		this.flightCode = code;
 		return this;
 	}
 
-	setTrip (fromAirport: string, toAirport: string) {
-		this.fromAirport = fromAirport;
-		this.toAirport = toAirport;
+	setTrip (from: string, to: string) {
+		this.fromAirport = from;
+		this.toAirport = to;
 		return this;
 	}
-
-	setPassenger (name: string, document: string, gender: string, birthdate: string) {
+	
+	setPassenger (name: string, email: string, document: string, gender: string) {
 		this.passengerName = name;
+		this.passengerEmail = email;
 		this.passengerDocument = document;
 		this.passengerGender = gender;
-		this.passengerBirthdate = birthdate;
 		return this;
 	}
 
@@ -97,15 +50,24 @@ export class FlightTicketBuilder {
 		return this;
 	}
 
-	setCheckin (terminal: string, gate: string) {
-		this.hasCheckin = true;
+	setCheckedBags (checkedBags: number) {
+		this.checkedBags = checkedBags;
+		return this;
+	}
+
+	setCheckinInformation (hasCheckin: boolean, terminal: string, gate: string) {
+		this.hasCheckin = hasCheckin;
 		this.terminal = terminal;
 		this.gate = gate;
 		return this;
 	}
 
-	build () {
-		const flightTicket = new FlightTicket(this);
-		return flightTicket;
+	setPriority (priority: number) {
+		this.priority = priority;
+		return this;
+	}
+
+	getFlightTicket (): FlightTicket {
+		return new FlightTicket(this);
 	}
 }
