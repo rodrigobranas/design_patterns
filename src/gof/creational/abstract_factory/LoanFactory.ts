@@ -20,7 +20,7 @@ export class MortgageLoanFactory implements LoanFactory {
 
 export class CarLoanFactory implements LoanFactory {
 
-	createLoan(amount: number, income: number, installments: number): MortgageLoan {
+	createLoan(amount: number, income: number, installments: number): CarLoan {
 		return CarLoan.create(amount, income, installments);
 	}
 
