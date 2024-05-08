@@ -10,7 +10,7 @@ export default class User {
 		return new User(userId, name, email, password);
 	}
 
-	isValid (password: string) {
+	passwordMatches (password: string) {
 		return this.password === password;
 	}
 }

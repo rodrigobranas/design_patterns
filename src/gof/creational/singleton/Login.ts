@@ -1,4 +1,4 @@
-import UserRepository, { UserRepositoryMemory } from "./UserRepository"
+import UserRepository, { UserRepositoryMemory } from "./UserRepository";
 
 export default class Login {
 	userRepository: UserRepository;
@@ -9,10 +9,13 @@ export default class Login {
 
 	async execute (input: Input): Promise<Output> {
 		const user = await this.userRepository.getByEmail(input.email);
-		const isValid = user.isValid(input.password);
+		let success = false;
+		if (user && user.passwordMatches(input.password)) {
+			success = true;
+		}
 		return {
-			isValid
-		};
+			success
+		}
 	}
 }
 
@@ -22,5 +25,5 @@ type Input = {
 }
 
 type Output = {
-	isValid: boolean
+	success: boolean
 }

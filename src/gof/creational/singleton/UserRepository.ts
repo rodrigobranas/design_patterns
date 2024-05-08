@@ -2,12 +2,11 @@ import User from "./User";
 
 export default interface UserRepository {
 	save (user: User): Promise<void>;
-	getById (userId: string): Promise<User>;
-	getByEmail (email: string): Promise<User>;
+	getByEmail (email: string): Promise<User | undefined>;
 }
 
 export class UserRepositoryMemory implements UserRepository {
-	users: User[];
+	private users: User[];
 	static instance: UserRepositoryMemory;
 
 	private constructor () {
@@ -18,15 +17,9 @@ export class UserRepositoryMemory implements UserRepository {
 		this.users.push(user);
 	}
 
-	async getById(userId: string): Promise<User> {
-		const user = this.users.find((user: User) => user.userId === userId);
-		if (!user) throw new Error("User not found");
-		return user;
-	}
-
-	async getByEmail(email: string): Promise<User> {
+	async getByEmail(email: string): Promise<User | undefined> {
 		const user = this.users.find((user: User) => user.email === email);
-		if (!user) throw new Error("User not found");
+		if (!user) return;
 		return user;
 	}
 
