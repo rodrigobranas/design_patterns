@@ -1,55 +1,16 @@
-import crypto from "crypto";
+import Password, { PasswordFactory } from "./Password";
 
 export default abstract class Account {
+	password: Password;
 
-	constructor (readonly type: string, readonly name: string, readonly email: string, readonly password: string) {
-	}
-
-	abstract passwordMatches (password: string): boolean;
-}
-
-export abstract class Passenger extends Account {
-	creditCardToken: string;
-
-	constructor (name: string, email: string, password: string, creditCardToken: string) {
-		super("passenger", name, email, password);
-		this.creditCardToken = creditCardToken;
-	}
-
-	abstract passwordMatches (password: string): boolean;
-}
-
-export abstract class Driver extends Account {
-	carPlate: string;
-	
-	constructor (name: string, email: string, password: string, carPlate: string) {
-		super("driver", name, email, password);
-		this.carPlate = carPlate;
-	}
-
-	abstract passwordMatches (password: string): boolean;
-}
-
-export class PassengerPasswordPlain extends Passenger {
-
-	constructor (name: string, email: string, password: string, creditCardToken: string) {
-		super(name, email, password, creditCardToken);
+	constructor (readonly name: string, readonly email: string, readonly document: string, password: string, readonly passwordType: string) {
+		if (!name.match(/.+ .+/g)) throw new Error("Invalid name");
+		if (!email.match(/.+\@.+\..+/g)) throw new Error("Invalid email");
+		if (document.length !== 11) throw new Error("Invalid document");
+		this.password = PasswordFactory.create(passwordType, password);
 	}
 
 	passwordMatches (password: string): boolean {
-		return this.password === password;
-	}
-}
-
-export class PassengerPasswordSHA1 extends Passenger {
-
-	constructor (name: string, email: string, password: string, creditCardToken: string) {
-		const sha1 = crypto.createHash("sha1").update(password).digest("hex");
-		super(name, email, sha1, creditCardToken);
-	}
-
-	passwordMatches (password: string): boolean {
-		const sha1 = crypto.createHash("sha1").update(password).digest("hex");
-		return this.password === sha1;
+		return this.password.passwordMatches(password);
 	}
 }
